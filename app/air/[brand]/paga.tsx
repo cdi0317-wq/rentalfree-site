@@ -12,14 +12,15 @@ const brandNameMap: Record<string, string> = {
 function getDefaultImage(product: (typeof products)[0]) {
 const colors = product.colors ?? {};
 
+const colors = product.colors ?? {};
+
 const colorOrder = ["화이트", "그레이", "핑크", "블루", "베이지", "실버", "브라운", "기본"];
 
 const firstColor =
   colorOrder.find((color) => colors[color as keyof typeof colors]) ||
   Object.keys(colors)[0];
 
-const images = colors[firstColor as keyof typeof colors];
-  return images?.[0] || "";
+const images = colors[firstColor as keyof typeof colors];  return images?.[0] || "";
 }
 
 function getDefaultPrice(product: (typeof products)[0]) {
