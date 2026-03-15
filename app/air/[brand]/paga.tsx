@@ -63,9 +63,9 @@ export default async function AirBrandPage({
   const { brand } = await params;
   const brandName = brandNameMap[brand] || "";
 
-  const filteredProducts = products.filter(
-    (product) => product.category === "공기청정기" && product.brand === brandName
-  );
+const filteredProducts = products.filter(
+  (product) => product.category === "air" && product.brand === brandName
+);
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-16">
