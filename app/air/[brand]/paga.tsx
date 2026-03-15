@@ -22,15 +22,39 @@ const images = colors[firstColor as keyof typeof colors];  return images?.[0] ||
 }
 
 function getDefaultPrice(product: (typeof products)[0]) {
-  const contractOrder = ["84개월", "72개월", "60개월", "48개월", "36개월"];
-  const firstContract =
-    contractOrder.find((item) => product.contracts[item as keyof typeof product.contracts] !== null) ||
-    "36개월";
+  const pricing = product.pricing;
 
-  const price = product.contracts[firstContract as keyof typeof product.contracts];
+  if (!pricing) return "상담문의";
+
+  const functionKeys = Object.keys(pricing);
+  const firstFunction = functionKeys[0];
+  if (!firstFunction) return "상담문의";
+
+  const careTypes = pricing[firstFunction];
+  const firstCare = Object.keys(careTypes)[0];
+  if (!firstCare) return "상담문의";
+
+  const contracts = careTypes[firstCare];
+  const contractOrder = ["84개월", "72개월", "60개월", "48개월", "36개월", "6년", "5년", "3년"];
+
+  const firstContract =
+    contractOrder.find((item) => contracts[item as keyof typeof contracts] != null) ||
+    Object.keys(contracts)[0];
+
+  if (!firstContract) return "상담문의";
+
+  const priceData = contracts[firstContract as keyof typeof contracts];
+  if (!priceData) return "상담문의";
+
+  const price =
+    typeof priceData === "number"
+      ? priceData
+      : "price" in priceData
+      ? priceData.price
+      : 0;
+
   return price ? `월 ${price.toLocaleString()}원` : "상담문의";
 }
-
 export default async function AirBrandPage({
   params,
 }: {
